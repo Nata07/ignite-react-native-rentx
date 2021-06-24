@@ -4,7 +4,7 @@ export default {
     header: '#1b1b1f',
 
     background_primary: '#F4F5F6',
-    secondary_primary: '#FFFFFF',
+    background_secondary: '#FFFFFF',
 
     text: '#747480',
     text_detail: '#AEAEB3',
