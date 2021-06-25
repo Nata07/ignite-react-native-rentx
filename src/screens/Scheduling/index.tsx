@@ -18,8 +18,14 @@ import {
  } from './styles';
 
 import ArrowSvg from '../../assets/arrow.svg'
+import { useNavigation } from '@react-navigation/native';
 
 export function Scheduling() {
+  const navigation = useNavigation();
+
+  function handleSchedulingDetails(){
+    navigation.navigate('SchedulingDatails')
+  }
   return (
     <Container>
       <StatusBar barStyle="light-content" />
@@ -52,7 +58,7 @@ export function Scheduling() {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" color={theme.colors.main} onClick={() => {}}/>
+        <Button title="Confirmar" color={theme.colors.main} onPress={handleSchedulingDetails}/>
       </Footer>
     </Container>
   );

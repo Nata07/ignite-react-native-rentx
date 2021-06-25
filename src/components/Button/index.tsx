@@ -5,12 +5,12 @@ import { Container, Title } from './styles';
 interface ButtonProps {
   title: string;
   color: string;
-  onClick: () => void;
+  onPress?: () => void;
 }
 
-export function Button({ title, color, ...rest}: ButtonProps) {
+export function Button({ title, color, onPress}: ButtonProps) {
   return (
-    <Container color={color} {...rest}>
+    <Container color={color} onPress={onPress}>
       <Title>{title}</Title>
     </Container>
 

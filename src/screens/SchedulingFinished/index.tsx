@@ -12,9 +12,15 @@ import DoneSvg from '../../assets/done.svg'
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 import { Button } from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 export function SchedulingFinished(){
   const theme = useTheme();
+  const navigation = useNavigation();
+
+  function handleBackToHome() {
+    navigation.navigate('Home');
+  }
   return (
     <Container>
       <LogoBackground />
@@ -30,7 +36,7 @@ export function SchedulingFinished(){
       <Button 
         color={theme.colors.shape_dark}
         title="Ok"
-        onClick={() => console.log('teste')}
+        onPress={handleBackToHome}
       />
     </Container>
   );

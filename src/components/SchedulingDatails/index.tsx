@@ -39,13 +39,17 @@ import {
 } from './styles';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
+import { useNavigation } from '@react-navigation/native';
 
 interface Car {
+  id: string;
   brand: string;
   name: string;
-  price: string;
-  period: string;
-  image_url: String[];
+  rent: {
+    price: string;
+    period: string;
+  }
+  thumbnail: string;
 }
 
 interface CarProps {
@@ -54,6 +58,11 @@ interface CarProps {
 
 export function SchedulingDatails() {
   const theme = useTheme();
+  const navigation = useNavigation();
+
+  function handleConfirmation() {
+    navigation.navigate('SchedulingFinished')
+  }
   return (
     <Container>
       <StatusBar barStyle="dark-content" />
@@ -124,7 +133,7 @@ export function SchedulingDatails() {
 
       
       <Footer>
-        <Button title="Confirmar" color="" onClick={() => {console.log}}/>
+        <Button title="Alugar carro" color={theme.colors.success} onPress={handleConfirmation}/>
       </Footer>
     </Container>
   );

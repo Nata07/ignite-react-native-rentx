@@ -35,7 +35,7 @@ export const DetailHeader = styled.View`
   justify-content: space-between;
   align-items: center;
 
-  margin-top: 12px;
+  margin-top: -14px;
 `;
 
 export const Car = styled.View``;
@@ -74,7 +74,7 @@ export const Specifications = styled.View`
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  margin-top: 23px;
+  margin-top: 16px;
 `;
 
 export const RentalPeriod = styled.View`
@@ -84,7 +84,7 @@ export const RentalPeriod = styled.View`
   align-items: center;
   justify-content: space-between;
 
-  margin-top: 24px;
+  margin-top: 12px;
 
   border-bottom-width: 1px;
   border-bottom-color: ${({theme}) => theme.colors.line};
@@ -123,7 +123,7 @@ export const RentalPrice = styled.View`
   
   align-items: flex-end;
   justify-content: space-between;
-  
+  margin-top: 12px;
 `;
 
 export const PriceDetails = styled.View`

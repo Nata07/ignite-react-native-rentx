@@ -2,17 +2,17 @@ import React from 'react';
 
 import  { createStackNavigator } from '@react-navigation/stack';
 
-const { Navigator, Screen } = createStackNavigator();
 import { Home } from '../screens/Home';
 import { DetailCar } from '../components/DetailCar';
 import { Scheduling } from '../screens/Scheduling';
 import { SchedulingDatails } from '../components/SchedulingDatails';
 import { SchedulingFinished } from '../screens/SchedulingFinished';
 
+const { Navigator, Screen } = createStackNavigator();
 
-export function StackNavigator(){
+export function StackRoutes(){
   return(
-    <Navigator>
+    <Navigator headerMode="none">
       <Screen 
         name="Home"
         component={Home}

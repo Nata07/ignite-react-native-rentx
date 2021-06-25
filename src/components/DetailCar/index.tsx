@@ -29,6 +29,7 @@ import {
   Description,
   Footer
 } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 interface Car {
   brand: string;
@@ -43,6 +44,11 @@ interface CarProps {
 }
 
 export function DetailCar() {
+  const navigation = useNavigation();
+
+  function handleScheduling() {
+    navigation.navigate('Scheduling')
+  }
   return (
     <Container>
       <StatusBar barStyle="dark-content" />
@@ -82,7 +88,7 @@ export function DetailCar() {
 
       </Details>
       <Footer>
-        <Button title="Confirmar" color="" onClick={() => {console.log}}/>
+        <Button title="Confirmar" color="" onPress={handleScheduling}/>
       </Footer>
     </Container>
   );

@@ -1,13 +1,13 @@
 import React from 'react';
-import { NativeScreenContainer } from 'react-native-screens';
-import { StackNavigator } from './stack.routes';
+import { NavigationContainer } from '@react-navigation/native';
+import { StackRoutes } from './stack.routes';
 
 
 export function Routes(){
  return (
-   <NativeScreenContainer>
-       <StackNavigator />
-   </NativeScreenContainer>
+   <NavigationContainer>
+       <StackRoutes />
+   </NavigationContainer>
 
  );
 }
