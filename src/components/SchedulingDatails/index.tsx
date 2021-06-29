@@ -39,52 +39,95 @@ import {
 } from './styles';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { MarkedDateProps, RentalPeriodDates } from '../Calendar';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getPlatformDate } from '../../utils/getPlataformDate';
+import { format } from 'date-fns';
+import api from '../../services/api';
+import { Alert } from 'react-native';
 
 interface Car {
   id: string;
   brand: string;
   name: string;
   rent: {
-    price: string;
+    price: number;
     period: string;
   }
   thumbnail: string;
 }
 
 interface CarProps {
-  data: Car;
+  car: Car;
+  dates: string[];
 }
 
 export function SchedulingDatails() {
+  const [rentalPeriod, setRentalPeriod] = useState<RentalPeriodDates>({} as RentalPeriodDates)
+  
   const theme = useTheme();
   const navigation = useNavigation();
+  const route = useRoute();
+  const { car, dates } = route.params as CarProps;
 
-  function handleConfirmation() {
-    navigation.navigate('SchedulingFinished')
+  console.log('dates');
+  console.log(car.id);
+
+  const rentalTotal = Number(dates.length * car.rent.price);
+  
+  async function handleConfirmRental() {
+    const schedulingByCars = await  api.get(`/schedules/${car.id}`);
+
+    console.log('schedulingByCars');
+    console.log(schedulingByCars);
+
+    const unavailable_dates = [
+      ...schedulingByCars.data.unavailable_dates,
+      ...dates,
+    ]
+
+    api.put(`/schedules/${car.id}`, {
+      id: car.id,
+      unavailable_dates
+    })
+    .then(() => navigation.navigate('SchedulingFinished'))
+    .catch(() => Alert.alert('Não foi possivel agendar o carro. Tente novamente mais tarde'));
   }
+    
+  function handleBack() {
+    navigation.goBack();
+  }
+
+  useEffect(() => {
+    setRentalPeriod({
+      startFormat: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      endFormat: format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy'),
+    })
+  }, [])
   return (
     <Container>
       <StatusBar barStyle="dark-content" />
       <Header>
-        <BackButton />        
+        <BackButton onPress={handleBack}/>        
       </Header>
       
       <CarImages>
         <ImageSlider images={[
-          'https://catalogo.webmotors.com.br/imagens/prod/347468/PORSCHE_PANAMERA_2.9_V6_EHYBRID_4_PDK_34746814472691347.png?s=fill&w=440&h=330&q=80&t=true'
+          car.thumbnail
         ]}/>
       </CarImages>
       
       <Details>
         <DetailHeader>
           <Car>
-            <Brand>lamborghini</Brand>
-            <Name>Huracan</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Car>
           <Info>
-            <Period>ao dia</Period>
-            <Price>R$ 580</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>R$ {car.rent.price}</Price>
           </Info>
         </DetailHeader>
         <Specifications>
@@ -107,7 +150,7 @@ export function SchedulingDatails() {
 
             <Info>
               <DateTitle>DE</DateTitle>
-              <DateValue>18/06/2021</DateValue>
+              <DateValue>{rentalPeriod.startFormat}</DateValue>
             </Info>
 
             <Feather
@@ -118,22 +161,22 @@ export function SchedulingDatails() {
 
             <Info>
               <DateTitle>ATE</DateTitle>
-              <DateValue>18/06/2021</DateValue>
+              <DateValue>{rentalPeriod.endFormat}</DateValue>
             </Info>
         </RentalPeriod>
         <RentalPrice>
           <PriceDetails>
             <PriceDescription>TOTAL</PriceDescription>
-            <PriceValue>R$ 580 x3 diárias</PriceValue>
+            <PriceValue>{`${car.rent.price} x${dates.length} diárias`}</PriceValue>
           </PriceDetails>
 
-          <PriceTotal>R$ 2900</PriceTotal>
+          <PriceTotal>R$ {rentalTotal}</PriceTotal>
         </RentalPrice>
       </Details>
 
       
       <Footer>
-        <Button title="Alugar carro" color={theme.colors.success} onPress={handleConfirmation}/>
+        <Button title="Alugar carro" color={theme.colors.success} onPress={handleConfirmRental}/>
       </Footer>
     </Container>
   );

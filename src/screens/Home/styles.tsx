@@ -1,3 +1,4 @@
+import { RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native'
 
@@ -30,4 +31,18 @@ export const TotalCars = styled.Text`
 export const TestCar = styled.View`
   flex: 1;
   padding: 15px;
+`;
+
+export const MyCarsButton = styled(RectButton)`
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+
+  align-items: center;
+  justify-content: center;
+  background-color: ${({theme}) => theme.colors.main};
+
+  position: absolute;
+  right: 22px;
+  bottom: 13px;
 `;

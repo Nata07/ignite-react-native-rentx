@@ -29,44 +29,54 @@ import {
   Description,
   Footer
 } from './styles';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 interface Car {
+  id: string;
   brand: string;
   name: string;
-  price: string;
-  period: string;
-  image_url: String[];
+  rent: {
+    price: string;
+    period: string;
+  }
+  thumbnail: string;
 }
 
 interface CarProps {
-  data: Car;
+  car: Car;
 }
 
 export function DetailCar() {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { car } = route.params as CarProps;
 
   function handleScheduling() {
-    navigation.navigate('Scheduling')
+    navigation.navigate('Scheduling', { car });
   }
+
+  function handleBack() {
+    navigation.goBack();
+  }
+
   return (
     <Container>
       <StatusBar barStyle="dark-content" />
       <Header>
-        <BackButton />        
+        <BackButton onPress={handleBack}/>        
       </Header>
       
       <CarImages>
         <ImageSlider images={[
-          'https://catalogo.webmotors.com.br/imagens/prod/347468/PORSCHE_PANAMERA_2.9_V6_EHYBRID_4_PDK_34746814472691347.png?s=fill&w=440&h=330&q=80&t=true'
+          car.thumbnail
         ]}/>
       </CarImages>
       
       <Details>
         <DetailHeader>
           <Car>
-            <Brand>lamborghini</Brand>
-            <Name>Huracan</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Car>
           <Info>
             <Period>ao dia</Period>

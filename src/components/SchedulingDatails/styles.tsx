@@ -113,7 +113,7 @@ export const DateValue = styled.Text`
   color: ${({theme}) => theme.colors.title};
   font-size: ${RFValue(15)}px;
 
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 `;
 
 export const RentalPrice = styled.View`
@@ -143,7 +143,7 @@ export const PriceValue = styled.Text`
   color: ${({theme}) => theme.colors.title};
   font-size: ${RFValue(15)}px;
 
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 `;
 
 export const PriceTotal = styled.Text`
