@@ -66,36 +66,46 @@ interface CarProps {
 
 export function SchedulingDatails() {
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriodDates>({} as RentalPeriodDates)
-  
+  const [ loading, setLoading ] = useState(false);
   const theme = useTheme();
   const navigation = useNavigation();
   const route = useRoute();
   const { car, dates } = route.params as CarProps;
 
-  console.log('dates');
-  console.log(car.id);
-
   const rentalTotal = Number(dates.length * car.rent.price);
   
   async function handleConfirmRental() {
+    setLoading(true);
     const schedulingByCars = await  api.get(`/schedules_bycars/${car.id}`);
-
     console.log('schedulingByCars');
     console.log(schedulingByCars);
-
+    
     const unavailable_dates = [
       ...schedulingByCars.data.unavailable_dates,
       ...dates,
     ]
-
+    
+    api.post(`/schedules_byuser/`, {
+      user_id: 1,
+      car,
+      startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      endDate: format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy'),
+    })
+    
     api.put(`/schedules_bycars/${car.id}`, {
       id: car.id,
       unavailable_dates
+      
     })
-    .then(() => navigation.navigate('SchedulingFinished'))
-    .catch(() => Alert.alert('Não foi possivel agendar o carro. Tente novamente mais tarde'));
+    .then(() => {
+      navigation.navigate('SchedulingFinished')
+    })
+    .catch(() => {
+      setLoading(false);
+      Alert.alert('Não foi possivel agendar o carro. Tente novamente mais tarde')
+    });
   }
-    
+  
   function handleBack() {
     navigation.goBack();
   }
@@ -176,7 +186,13 @@ export function SchedulingDatails() {
 
       
       <Footer>
-        <Button title="Alugar carro" color={theme.colors.success} onPress={handleConfirmRental}/>
+        <Button 
+          title="Alugar carro" 
+          color={theme.colors.success} 
+          onPress={handleConfirmRental}
+          enabled={!loading}  
+          loading={loading}
+        />
       </Footer>
     </Container>
   );

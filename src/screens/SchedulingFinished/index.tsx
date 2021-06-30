@@ -8,8 +8,7 @@ import {
 } from './styles';
 
 import LogoBackground from '../../assets/logo_background_gray.svg'
-import DoneSvg from '../../assets/done.svg'
-import { Feather } from '@expo/vector-icons';
+import DoneSvg from '../../assets/done.svg';
 import { useTheme } from 'styled-components';
 import { Button } from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';

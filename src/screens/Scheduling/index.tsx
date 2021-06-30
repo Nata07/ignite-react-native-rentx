@@ -47,18 +47,10 @@ export function Scheduling() {
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriodDates>({} as RentalPeriodDates);
 
   function handleSchedulingDetails() {
-
-    console.log('markedDates');
-    console.log(markedDates);
-
-    if(!rentalPeriod.startFormat) {
-      Alert.alert('Selecione pelo menos uma data para agendamento');
-    } else{
     navigation.navigate('SchedulingDatails', {
       car,
       dates: Object.keys(markedDates)
-      })
-    }
+    });
   }
 
   function hadleBack() {
@@ -122,7 +114,12 @@ export function Scheduling() {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" color={theme.colors.main} onPress={handleSchedulingDetails}/>
+        <Button 
+          title="Confirmar" 
+          color={theme.colors.main} 
+          onPress={handleSchedulingDetails}
+          enabled={!!rentalPeriod.startFormat}
+        />
       </Footer>
     </Container>
   );
