@@ -18,7 +18,7 @@ interface Car {
   brand: string;
   name: string;
   rent: {
-    price: string;
+    price: number;
     period: string;
   }
   thumbnail: string;

@@ -14,7 +14,7 @@ export const Container = styled(RectButton)`
 
   border-radius: 8px;
   padding: 24px;
-  margin-bottom: 16px;
+  margin-bottom: 6px;
 `;
 
 export const Content = styled.View` 
