@@ -22,6 +22,7 @@ interface Car {
     period: string;
   }
   thumbnail: string;
+  photos: string[];
 }
 
 interface CarProps extends RectButtonProps{
@@ -48,7 +49,7 @@ export function Car({data, ...rest}: CarProps) {
 
       </Content>
       <CarImage 
-        source={ {uri: data.thumbnail }}
+        source={{ uri: data.photos[0]} }
         resizeMode="contain"  
       />
     </Container>

@@ -50,7 +50,7 @@ export function Scheduling() {
     navigation.navigate('SchedulingDatails', {
       car,
       dates: Object.keys(markedDates)
-    });
+    });''
   }
 
   function hadleBack() {
