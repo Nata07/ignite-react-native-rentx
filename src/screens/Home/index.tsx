@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import Animated, {
   useSharedValue,
-  useAnimatedStyle
+  useAnimatedStyle,
+  useAnimatedGestureHandler
 } from 'react-native-reanimated';
 
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
@@ -20,7 +21,7 @@ import api from '../../services/api';
 import Logo from '../../assets/logo.svg';
 import { Container, Header, HeaderContent, TotalCars, TestCar, MyCarsButton } from './styles';
 import theme from '../../styles/theme';
-import { RectButton } from 'react-native-gesture-handler';
+import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
 
 interface Car {
   id: string;
@@ -49,7 +50,11 @@ export const Home: React.FC = () => {
         {translateY: positionY.value}
       ]
     }
-  })
+  });
+
+  const onGestureEvent = useAnimatedGestureHandler({
+
+  });
 
   useEffect(() => {  
     async function getCars() {
@@ -76,7 +81,7 @@ export const Home: React.FC = () => {
 
   return (
     <Container>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="default" />
       <Header>
          <HeaderContent>
           <Logo 
@@ -95,29 +100,30 @@ export const Home: React.FC = () => {
         </TestCar>
       </ScrollView>
       
-      <Animated.View 
-        style={[
-          myCarsButtonStyle,
-          {
-            position: 'absolute',
-            bottom: 13,
-            right: 22,
-            backgroundColor: theme.colors.main,
-            borderRadius: 50,
-            padding: 8
-            
-          }
-        ]}
-      >
-        <ButtonAnimated onPress={handleOpenCarsScheduled}>
-          <Ionicons 
-            name="ios-car-sport"
-            size={34} 
-            color={theme.colors.shape}
-          />
-        </ButtonAnimated>
-      </Animated.View>
-    
+      <PanGestureHandler onGestureEvent={onGestureEvent}>
+        <Animated.View 
+          style={[
+            myCarsButtonStyle,
+            {
+              position: 'absolute',
+              bottom: 13,
+              right: 22,
+              backgroundColor: theme.colors.main,
+              borderRadius: 50,
+              padding: 8
+              
+            }
+          ]}
+        >
+          <ButtonAnimated onPress={handleOpenCarsScheduled}>
+            <Ionicons 
+              name="ios-car-sport"
+              size={34} 
+              color={theme.colors.shape}
+            />
+          </ButtonAnimated>
+        </Animated.View>
+      </PanGestureHandler>
     </Container>
   );
 }
